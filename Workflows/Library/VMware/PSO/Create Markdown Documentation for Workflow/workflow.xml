@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:workflow xmlns:ns2="http://vmware.com/vco/workflow" root-name="item1" object-name="workflow:name=generic" id="4a156595-8a18-40ea-84bf-4fd96d75bdb9" editor-version="2.0" version="1.0.0" api-version="6.0.0" restartMode="1" resumeFromFailedMode="0">
+    <display-name>Create Markdown Documentation for Workflow</display-name>
+    <description>Create Markdown Documentation for a Workflow</description>
+    <position y="50.0" x="100.0"/>
+    <input>
+        <param name="workflow" type="Workflow">
+            <description>Workflow as input</description>
+        </param>
+    </input>
+    <output>
+        <param name="markdownText" type="string">
+            <description>Markdown Text</description>
+        </param>
+    </output>
+    <workflow-item name="item0" type="end" end-mode="0" comparator="0">
+        <in-binding/>
+        <out-binding/>
+        <position y="50.0" x="300.0"/>
+    </workflow-item>
+    <workflow-item name="item1" out-name="item0" type="task" comparator="0">
+        <display-name>Generate Markdown</display-name>
+        <script encoded="false">var output = "";&#13;
+&#13;
+output = output + ("## Workflow: " + workflow.name + "\n");&#13;
+output = output + ("Name: " + workflow.name + "\n");&#13;
+output = output + ("Location: " + workflow.workflowCategory.path + "\n");&#13;
+output = output + ("Description: " + workflow.description + "\n");&#13;
+output = output + ("Version: " + workflow.version + "\n");&#13;
+output = output + ("ID: " + workflow.id + "\n");&#13;
+output = output + ("### Inputs" + "\n");&#13;
+if(workflow.inParameters.length &gt; 0){&#13;
+    output = output + ("| Name | Type | Description |" + "\n");&#13;
+    output = output + ("| ---- | ---- | ----------- |" + "\n");&#13;
+    for(i=0;i&lt;workflow.inParameters.length;i++){&#13;
+        var inName = workflow.inParameters[i].name;&#13;
+        var inType = workflow.inParameters[i].type;&#13;
+        var inDesc = workflow.inParameters[i].description;&#13;
+        output = output + ("| " + inName + " | " + inType + " | " + inDesc + " |" + "\n");&#13;
+    }&#13;
+}&#13;
+else{&#13;
+    output = output + ("This workflow has no inputs." + "\n");&#13;
+}&#13;
+output = output + ("### Outputs" + "\n");&#13;
+if(workflow.outParameters.length &gt; 0){&#13;
+    output = output + ("| Name | Type | Description |" + "\n");&#13;
+    output = output + ("| ---- | ---- | ----------- |" + "\n");&#13;
+    for(i=0;i&lt;workflow.outParameters.length;i++){&#13;
+        var outName = workflow.outParameters[i].name;&#13;
+        var outType = workflow.outParameters[i].type;&#13;
+        var outDesc = workflow.outParameters[i].description;&#13;
+        output = output + ("| " + outName + " | " + outType + " | " + outDesc + " |" + "\n");&#13;
+    }&#13;
+}&#13;
+else{&#13;
+    output = output + ("This workflow has no outputs." + "\n");&#13;
+}&#13;
+output = output + ("### Variables" + "\n");&#13;
+if(workflow.attributes.length &gt; 0){&#13;
+    output = output + ("| Name | Type | Description |" + "\n");&#13;
+    output = output + ("| ---- | ---- | ----------- |" + "\n");&#13;
+    for(i=0;i&lt;workflow.attributes.length;i++){&#13;
+        var attrName = workflow.attributes[i].name;&#13;
+        var attrType = workflow.attributes[i].type;&#13;
+        var attrDesc = workflow.attributes[i].description;&#13;
+        output = output + ("| " + attrName + " | " + attrType + " | " + attrDesc + " |" + "\n");&#13;
+    }&#13;
+}&#13;
+else{&#13;
+    output = output + ("This workflow has no variables." + "\n");&#13;
+}&#13;
+output = output + ("### Notes" + "\n");&#13;
+output = output + ("Nothing notable to report about this workflow." + "\n");&#13;
+&#13;
+System.log(output);</script>
+        <in-binding>
+            <bind name="workflow" type="Workflow" export-name="workflow"/>
+        </in-binding>
+        <out-binding/>
+        <description>Simple task with custom script capability.</description>
+        <position y="60.0" x="160.0"/>
+    </workflow-item>
+    <presentation/>
+</ns2:workflow>

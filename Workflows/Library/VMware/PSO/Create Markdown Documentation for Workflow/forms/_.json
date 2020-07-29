@@ -1,0 +1,1 @@
+{"schema":{"workflow":{"id":"workflow","type":{"dataType":"reference","referenceType":"Workflow"},"label":"workflow","constraints":{"required":false}}},"layout":{"pages":[{"id":"page_446u13oi","title":"General","sections":[{"id":"section_n72zbkkm","fields":[{"id":"workflow","display":"valuePicker"}]}]}]},"itemId":""}
