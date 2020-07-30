@@ -13,6 +13,10 @@
             <description>Markdown Text</description>
         </param>
     </output>
+    <attrib name="logOutput" type="boolean">
+        <value encoded="n">false</value>
+        <description>Boolean value to log the output (false by default)</description>
+    </attrib>
     <workflow-item name="item0" type="end" end-mode="0" comparator="0">
         <in-binding/>
         <out-binding/>
@@ -73,11 +77,17 @@ else{&#13;
 output = output + ("### Notes" + "\n");&#13;
 output = output + ("Nothing notable to report about this workflow." + "\n");&#13;
 &#13;
-System.log(output);</script>
+if(logOutput){&#13;
+    System.log(output);&#13;
+}&#13;
+markdownText = output;</script>
         <in-binding>
             <bind name="workflow" type="Workflow" export-name="workflow"/>
+            <bind name="logOutput" type="boolean" export-name="logOutput"/>
         </in-binding>
-        <out-binding/>
+        <out-binding>
+            <bind name="markdownText" type="string" export-name="markdownText"/>
+        </out-binding>
         <description>Simple task with custom script capability.</description>
         <position y="60.0" x="160.0"/>
     </workflow-item>

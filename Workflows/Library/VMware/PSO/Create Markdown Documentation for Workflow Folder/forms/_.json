@@ -1,0 +1,1 @@
+{"schema":{"workflowFolder":{"id":"workflowFolder","type":{"dataType":"reference","referenceType":"WorkflowCategory"},"label":"workflowFolder"}},"layout":{"pages":[{"id":"page_446u13oi","title":"General","sections":[{"id":"section_n72zbkkm","fields":[{"id":"workflowFolder","display":"valuePicker"}]}]}]},"itemId":"","workflowId":"d66ccf52-bc55-470f-bd53-f479476bbaa2"}
