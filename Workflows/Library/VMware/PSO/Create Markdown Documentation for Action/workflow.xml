@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:workflow xmlns:ns2="http://vmware.com/vco/workflow" root-name="item1" object-name="workflow:name=generic" id="ee6aecbb-3efc-403f-a417-1e3c9e830edc" editor-version="2.0" version="1.0.0" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+    <display-name>Create Markdown Documentation for Action</display-name>
+    <description>Create Markdown Documentation for an Action</description>
+    <position y="50.0" x="100.0"/>
+    <input>
+        <param name="action" type="Action">
+            <description>Action as input</description>
+        </param>
+    </input>
+    <output>
+        <param name="markdownText" type="string">
+            <description>Markdown Text</description>
+        </param>
+    </output>
+    <attrib name="logOutput" type="boolean">
+        <value encoded="n">false</value>
+        <description>Boolean value to log the output (false by default)</description>
+    </attrib>
+    <workflow-item name="item0" type="end" end-mode="0" comparator="0">
+        <in-binding/>
+        <out-binding/>
+        <position y="50.0" x="300.0"/>
+    </workflow-item>
+    <workflow-item name="item1" out-name="item0" type="task" comparator="0">
+        <display-name>Generate Markdown</display-name>
+        <script encoded="false">var output = "";&#13;
+&#13;
+output = output + ("## Action: " + action.name + "\n");&#13;
+output = output + ("Name: " + action.name + "\n");&#13;
+output = output + ("Location: " + action.module.name + "\n");&#13;
+output = output + ("Description: " + action.description + "\n");&#13;
+output = output + ("Version: " + action.version + "\n");&#13;
+output = output + ("ID: " + action.id + "\n");&#13;
+output = output + ("### Input Parameters" + "\n");&#13;
+if(action.parameters.length &gt; 0){&#13;
+    output = output + ("| Name | Type | Description |" + "\n");&#13;
+    output = output + ("| ---- | ---- | ----------- |" + "\n");&#13;
+    for(i=0;i&lt;action.parameters.length;i++){&#13;
+        var inName = action.parameters[i].name;&#13;
+        var inType = action.parameters[i].type;&#13;
+        var inDesc = action.parameters[i].description;&#13;
+        output = output + ("| " + inName + " | " + inType + " | " + inDesc + " |" + "\n");&#13;
+    }&#13;
+}&#13;
+else{&#13;
+    output = output + ("This workflow has no input parameters." + "\n");&#13;
+}&#13;
+output = output + ("### Return Type" + "\n");&#13;
+output = output + ("This action has a return type of :" + action.returnType + "\n");&#13;
+output = output + ("### Notes" + "\n");&#13;
+output = output + ("Nothing notable to report about this action." + "\n");&#13;
+&#13;
+logOutput = true;&#13;
+if(logOutput){&#13;
+    System.log(output);&#13;
+}&#13;
+markdownText = output;</script>
+        <in-binding>
+            <bind name="logOutput" type="boolean" export-name="logOutput"/>
+            <bind name="action" type="Action" export-name="action"/>
+        </in-binding>
+        <out-binding>
+            <bind name="markdownText" type="string" export-name="markdownText"/>
+        </out-binding>
+        <description>Simple task with custom script capability.</description>
+        <position y="60.0" x="162.0"/>
+    </workflow-item>
+    <presentation/>
+</ns2:workflow>

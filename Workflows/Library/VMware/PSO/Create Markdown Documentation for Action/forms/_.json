@@ -1,0 +1,1 @@
+{"schema":{"action":{"id":"action","type":{"dataType":"reference","referenceType":"Action"},"label":"action"}},"layout":{"pages":[{"id":"page_446u13oi","title":"General","sections":[{"id":"section_n72zbkkm","fields":[{"id":"action","display":"valuePicker"}]}]}]},"itemId":"","workflowId":"ee6aecbb-3efc-403f-a417-1e3c9e830edc"}
