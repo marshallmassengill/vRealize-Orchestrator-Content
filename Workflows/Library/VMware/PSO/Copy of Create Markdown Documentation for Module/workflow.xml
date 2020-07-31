@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:workflow xmlns:ns2="http://vmware.com/vco/workflow" root-name="item2" object-name="workflow:name=generic" id="e8339778-f859-40e0-a45d-3b9044308647" editor-version="2.0" version="1.0.0" api-version="6.0.0" allowed-operations="vef" restartMode="1" resumeFromFailedMode="0">
+    <display-name>Create Markdown Documentation for Module</display-name>
+    <description>Create Markdown Documentation for all Actions in a Module</description>
+    <position y="100.0" x="200.0"/>
+    <input>
+        <param name="actionModule" type="Module">
+            <description>Action Module as input</description>
+        </param>
+    </input>
+    <output>
+        <param name="markdownText" type="string">
+            <description>Markdown Text</description>
+        </param>
+    </output>
+    <attrib name="logOutput" type="boolean">
+        <value encoded="n">true</value>
+        <description>Boolean value to log the output (false by default)</description>
+    </attrib>
+    <attrib name="actionCount" type="number">
+        <value encoded="n">0.0</value>
+        <description>The count of actions</description>
+    </attrib>
+    <attrib name="currentAction" type="Action">
+        <value encoded="n"/>
+        <description>The current action to run</description>
+    </attrib>
+    <attrib name="actions" type="Array/Action">
+        <value encoded="n">[]</value>
+        <description>Array of actions in the folder</description>
+    </attrib>
+    <attrib name="tempText" type="string">
+        <value encoded="n"></value>
+        <description>Markdown Text Temporary Storage</description>
+    </attrib>
+    <attrib name="tempActionText" type="string">
+        <value encoded="n"></value>
+        <description>Temporary Action Text Variable</description>
+    </attrib>
+    <workflow-item name="item2" out-name="item5" type="task" comparator="0">
+        <display-name>Get Actions</display-name>
+        <script encoded="false">actions = System.getModule(actionModule.name).actions;&#13;
+//actions = System.getModule(actionModule).actions;&#13;
+//System.log("actions: " + actions);&#13;
+System.log("Action Count: " + actionsList.length);&#13;
+tempText = "";&#13;
+&#13;
+//for(i=0;i&lt;workflows.length;i++){&#13;
+//    System.log("WF name: " + workflows[i].name + " - " + i);&#13;
+//}&#13;
+&#13;
+if(actions.length &gt; 0){&#13;
+    actionCount = actions.length-1;&#13;
+    System.log("actionCount: " + actionCount);&#13;
+    currentAction = actions[actionCount];&#13;
+}&#13;
+else{&#13;
+    throw("The module does not contain any actions.");&#13;
+}</script>
+        <in-binding>
+            <bind name="actionModule" type="Module" export-name="actionModule"/>
+        </in-binding>
+        <out-binding>
+            <bind name="tempText" type="string" export-name="tempText"/>
+            <bind name="actions" type="Array/Action" export-name="actions"/>
+            <bind name="actionCount" type="number" export-name="actionCount"/>
+            <bind name="currentAction" type="Action" export-name="currentAction"/>
+        </out-binding>
+        <description>Simple task with custom script capability.</description>
+        <position y="110.0" x="280.0"/>
+    </workflow-item>
+    <workflow-item name="item5" out-name="item10" type="link" linked-workflow-id="ee6aecbb-3efc-403f-a417-1e3c9e830edc" comparator="0">
+        <display-name>Create Markdown For Action</display-name>
+        <script encoded="false"></script>
+        <in-binding>
+            <bind name="action" type="Action" export-name="currentAction">
+                <description>Action as input</description>
+            </bind>
+        </in-binding>
+        <out-binding>
+            <bind name="markdownText" type="string" export-name="tempActionText">
+                <description>Markdown Text</description>
+            </bind>
+        </out-binding>
+        <description> </description>
+        <position y="110.0" x="400.0"/>
+    </workflow-item>
+    <workflow-item name="item6" out-name="item5" type="task" comparator="0">
+        <display-name>Prepare for next run</display-name>
+        <script encoded="false">actionCount = actionCount-1;&#13;
+currentAction = actions[actionCount];&#13;
+//System.log("WF: " + currentWorkflow.name);&#13;
+//System.log("Num: " + workflowCount);&#13;
+tempText = tempText + "\n" + tempActionText;</script>
+        <in-binding>
+            <bind name="tempText" type="string" export-name="tempText"/>
+            <bind name="currentAction" type="Action" export-name="currentAction"/>
+            <bind name="actionCount" type="number" export-name="actionCount"/>
+            <bind name="actions" type="Array/Action" export-name="actions"/>
+            <bind name="tempActionText" type="string" export-name="tempActionText"/>
+        </in-binding>
+        <out-binding>
+            <bind name="tempText" type="string" export-name="tempText"/>
+            <bind name="actionCount" type="number" export-name="actionCount"/>
+            <bind name="currentAction" type="Action" export-name="currentAction"/>
+        </out-binding>
+        <description>Scriptable task that prepares the values for the next run</description>
+        <position y="50.0" x="441.0"/>
+    </workflow-item>
+    <workflow-item name="item7" out-name="item9" type="task" comparator="0">
+        <display-name>Finalize Workflow</display-name>
+        <script encoded="false">tempText = tempText + "\n" + tempActionText;&#13;
+markdownText = tempText;&#13;
+&#13;
+if(logOutput){&#13;
+    System.log(markdownText);&#13;
+}</script>
+        <in-binding>
+            <bind name="logOutput" type="boolean" export-name="logOutput"/>
+            <bind name="tempText" type="string" export-name="tempText"/>
+            <bind name="tempActionText" type="string" export-name="tempActionText"/>
+        </in-binding>
+        <out-binding>
+            <bind name="markdownText" type="string" export-name="markdownText"/>
+        </out-binding>
+        <description>Finalize the workflow and set the output</description>
+        <position y="110.0" x="640.0"/>
+    </workflow-item>
+    <workflow-item name="item9" type="end" end-mode="0" comparator="0">
+        <in-binding/>
+        <out-binding/>
+        <position y="100.0" x="800.0"/>
+    </workflow-item>
+    <workflow-item name="item10" out-name="item6" alt-out-name="item7" type="condition" comparator="0">
+        <display-name>Last action?</display-name>
+        <script encoded="false">// Generated by the system, cannot be edited
+return (workflowCount &gt; 0);</script>
+        <in-binding>
+            <bind name="workflowCount" type="number" export-name="actionCount"/>
+        </in-binding>
+        <out-binding/>
+        <description>Determine if this is the last run</description>
+        <condition name="actionCount" type="number" comparator="2" label="null">0</condition>
+        <position y="100.0" x="520.0"/>
+    </workflow-item>
+    <presentation/>
+</ns2:workflow>
