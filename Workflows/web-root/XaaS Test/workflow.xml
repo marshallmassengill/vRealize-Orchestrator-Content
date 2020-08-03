@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:workflow xmlns:ns2="http://vmware.com/vco/workflow" root-name="item1" object-name="workflow:name=generic" id="8c445a9d-747d-4688-974e-8c50011617e5" editor-version="2.0" version="0.0.0" api-version="6.0.0" restartMode="1" resumeFromFailedMode="0">
+    <display-name>XaaS Test</display-name>
+    <position y="50.0" x="100.0"/>
+    <input>
+        <param name="userInput" type="string"/>
+    </input>
+    <output>
+        <param name="newUser" type="AD:User"/>
+    </output>
+    <attrib name="accountName" type="string">
+        <value encoded="n"></value>
+    </attrib>
+    <attrib name="domainName" type="string">
+        <value encoded="n"></value>
+    </attrib>
+    <attrib name="displayName" type="string">
+        <value encoded="n"></value>
+    </attrib>
+    <attrib name="groupContainer" type="AD:Group">
+        <value encoded="n">dunes://service.dunes.ch/CustomSDKObject?id='%23_v2_%23%2C%23Group%23%2C%23ae789a31-6c77-4fe3-b566-6d6e5980675b%23%2C%23CN%3DUsers%2CDC%3Dcorp%2CDC%3Dlocal%23'&amp;dunesName='AD:Group'</value>
+    </attrib>
+    <workflow-item name="item0" type="end" end-mode="0" comparator="0">
+        <in-binding/>
+        <out-binding/>
+        <position y="50.0" x="440.0"/>
+    </workflow-item>
+    <workflow-item name="item1" out-name="item2" type="task" comparator="0">
+        <display-name>Initialize Workflow</display-name>
+        <script encoded="false">var userInput;&#13;
+&#13;
+domainName = "corp.local";&#13;
+    &#13;
+if(userInput){&#13;
+    accountName = userInput;&#13;
+    displayName = userInput;&#13;
+}&#13;
+else{&#13;
+    accountName = "DefaultUser";&#13;
+    displayName = "DefaultUser";&#13;
+}</script>
+        <in-binding/>
+        <out-binding>
+            <bind name="accountName" type="string" export-name="accountName"/>
+            <bind name="domainName" type="string" export-name="domainName"/>
+            <bind name="displayName" type="string" export-name="displayName"/>
+        </out-binding>
+        <description>Simple task with custom script capability.</description>
+        <position y="60.0" x="160.0"/>
+    </workflow-item>
+    <workflow-item name="item2" out-name="item0" type="link" linked-workflow-id="958080808080808080808080808080802E81808001175609873343b6bbd2e3eea" comparator="0">
+        <display-name>Create a user</display-name>
+        <script encoded="false"></script>
+        <in-binding>
+            <bind name="accountName" type="string" export-name="accountName">
+                <description>The account name for the user (without domain information)</description>
+            </bind>
+            <bind name="domainName" type="string" export-name="domainName">
+                <description>The domain name in Win2000 form (john@sample.com : value must be sample.com)</description>
+            </bind>
+            <bind name="displayName" type="string" export-name="displayName">
+                <description>The display name of the user</description>
+            </bind>
+            <bind name="groupContainer" type="AD:Group" export-name="groupContainer">
+                <description>Group in which put the newly created user</description>
+            </bind>
+        </in-binding>
+        <out-binding>
+            <bind name="newUser" type="AD:User" export-name="newUser"/>
+        </out-binding>
+        <description> </description>
+        <position y="60.0" x="280.0"/>
+    </workflow-item>
+    <presentation/>
+</ns2:workflow>

@@ -51,7 +51,6 @@ output = output + ("This action has a return type of :" + action.returnType + "\
 output = output + ("### Notes" + "\n");&#13;
 output = output + ("Nothing notable to report about this action." + "\n");&#13;
 &#13;
-logOutput = true;&#13;
 if(logOutput){&#13;
     System.log(output);&#13;
 }&#13;

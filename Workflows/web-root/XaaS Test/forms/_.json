@@ -1,0 +1,1 @@
+{"schema":{"userInput":{"id":"userInput","type":{"dataType":"string"},"label":"userInput","constraints":{"required":false}}},"layout":{"pages":[{"id":"page_vbo1ga6m","title":"General","sections":[{"id":"section_pgphcjvl","fields":[{"id":"userInput","display":"textField"}]}]}]},"itemId":""}
